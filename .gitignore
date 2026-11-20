@@ -1,0 +1,9 @@
+# Áudio original (a página usa a cópia em assets/audio/notificacao.mp3)
+*SOM DE CAIXA REGISTRADORA*.mp3
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.vercel
+node_modules/

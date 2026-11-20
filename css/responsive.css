@@ -1,0 +1,153 @@
+/* =========================================================================
+   TIO RENATO — RESPONSIVIDADE
+   -------------------------------------------------------------------------
+   Breakpoints:
+   - Celular ............ até 480px
+   - Celular grande ..... 481px a 768px
+   - Tablet ............. 769px a 1024px
+   - Computador ......... a partir de 1025px
+   ========================================================================= */
+
+
+/* ===================== CELULAR (até 480px) ===================== */
+@media (max-width: 480px) {
+    /* Notificação centralizada embaixo */
+    .notify-root {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: max(14px, env(safe-area-inset-bottom));
+    }
+
+    :root {
+        --gutter: 14px;
+        --border-radius: 14px;
+    }
+
+    /* Banner ocupa toda a largura disponível */
+    .hero-banner {
+        border-radius: 14px;
+    }
+
+    /* Botão grande e centralizado */
+    .cta-button {
+        min-height: 62px;
+        padding: 16px 20px;
+        gap: 10px;
+        font-size: clamp(0.88rem, 4vw, 1rem);
+    }
+
+    /* Vídeos um abaixo do outro, ocupando a largura da tela
+       (limitado pela altura para o vídeo inteiro caber na tela) */
+    .winners-grid {
+        gap: 18px;
+        --card-max: min(100%, calc((100svh - 120px) * 9 / 16), 420px);
+    }
+
+    .play-button {
+        width: 56px;
+        height: 40px;
+    }
+
+    /* Rodapé escala com a largura da tela (nunca estoura) */
+    .profile-footer {
+        --avatar-size: clamp(72px, 22vw, 96px);
+    }
+
+
+    /* Luzes um pouco mais discretas em telas pequenas */
+    .glow-bottom-right {
+        width: 80vmax;
+        height: 80vmax;
+        opacity: 0.85;
+    }
+}
+
+
+/* ===================== CELULAR GRANDE (481px a 768px) ===================== */
+@media (min-width: 481px) and (max-width: 768px) {
+    :root {
+        --gutter: 20px;
+    }
+
+    /* Vídeos um abaixo do outro */
+    .winners-grid {
+        gap: 20px;
+        --card-max: 400px;
+    }
+
+    .cta-button {
+        max-width: 560px;
+    }
+}
+
+
+/* ===================== TABLET (769px a 1024px) ===================== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    :root {
+        --gutter: 28px;
+    }
+
+    .winners-grid {
+        gap: 18px;
+    }
+
+    .cta-button {
+        max-width: 600px;
+        min-height: 68px;
+    }
+}
+
+
+/* ===================== COMPUTADOR (a partir de 1025px) ===================== */
+@media (min-width: 1025px) {
+    :root {
+        --gutter: 24px;
+        --section-gap: 52px;
+    }
+
+    .page-wrapper {
+        padding-top: 40px;
+    }
+
+    .hero-banner {
+        border-radius: 20px;
+    }
+
+    /* Botão bem destacado */
+    .cta-button {
+        max-width: 640px;
+        min-height: 74px;
+        font-size: 1.3rem;
+        padding: 20px 36px;
+    }
+
+    .winners-grid {
+        gap: 28px;
+        --card-max: 380px;
+    }
+
+    .play-button {
+        width: 72px;
+        height: 50px;
+    }
+
+    .play-button svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .profile-footer {
+        --avatar-size: 120px;
+    }
+
+    /* Efeitos luminosos mais presentes nas laterais */
+    .ambient-glow::before,
+    .ambient-glow::after {
+        width: 220px;
+    }
+
+    .glow-bottom-right {
+        width: 55vmax;
+        height: 55vmax;
+    }
+}
