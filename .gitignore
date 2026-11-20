@@ -7,3 +7,6 @@ Thumbs.db
 .vscode/
 .vercel
 node_modules/
+
+.vercel
+.env*
