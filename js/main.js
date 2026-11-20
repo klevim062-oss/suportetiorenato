@@ -277,39 +277,69 @@
            primeiro toque/clique/tecla e, a partir daí, toca a cada notificação. */
         let sound = null;
         let soundUnlocked = false;
+        let unlocking = false;
+
+        // Eventos que o navegador aceita como "interação real" para liberar som.
+        // (touchstart/pointerdown de toque NÃO valem no Chrome do celular —
+        //  só o fim do toque: touchend / pointerup / click)
+        const UNLOCK_EVENTS = ["pointerup", "touchend", "click", "keydown", "mousedown"];
+
+        function setSoundStatus(status) {
+            root.dataset.sound = status; // "bloqueado" | "liberado" | "tocando" (útil p/ diagnóstico)
+        }
 
         if (opts.sound) {
             sound = new Audio(opts.sound);
             sound.preload = "auto";
+            sound.setAttribute("playsinline", "");
             sound.volume = typeof opts.soundVolume === "number" ? opts.soundVolume : 0.7;
+            setSoundStatus("bloqueado");
 
-            const unlock = () => {
-                if (soundUnlocked) return;
-                // toca mudo por um instante só para liberar o áudio
+            const removeUnlock = () => UNLOCK_EVENTS.forEach((ev) =>
+                window.removeEventListener(ev, unlock, true));
+
+            function unlock() {
+                if (soundUnlocked || unlocking) return;
+                unlocking = true;
+                // toca mudo por um instante dentro do toque só para liberar o áudio
                 sound.muted = true;
-                const p = sound.play();
-                const done = () => {
+                let p;
+                try { p = sound.play(); } catch (e) { p = null; }
+
+                const ok = () => {
                     sound.pause();
                     sound.currentTime = 0;
                     sound.muted = false;
                     soundUnlocked = true;
+                    unlocking = false;
+                    setSoundStatus("liberado");
+                    removeUnlock(); // só remove depois de dar certo
                 };
-                if (p && p.then) p.then(done).catch(() => { sound.muted = false; });
-                else done();
-                ["pointerdown", "touchstart", "keydown", "click"].forEach((ev) =>
-                    window.removeEventListener(ev, unlock, true));
-            };
-            ["pointerdown", "touchstart", "keydown", "click"].forEach((ev) =>
+                const fail = () => {
+                    sound.muted = false;
+                    unlocking = false; // tenta de novo no próximo toque
+                };
+
+                if (p && p.then) p.then(ok).catch(fail);
+                else if (p === null) fail();
+                else ok();
+            }
+
+            UNLOCK_EVENTS.forEach((ev) =>
                 window.addEventListener(ev, unlock, { capture: true, passive: true }));
         }
 
         function playSound() {
             if (!sound) return;
             try {
+                sound.muted = false;
                 sound.pause();
                 sound.currentTime = 0; // sempre do começo, a cada notificação
                 const p = sound.play();
-                if (p && p.catch) p.catch(() => {}); // bloqueado até o 1º toque
+                if (p && p.then) {
+                    p.then(() => setSoundStatus("tocando"))
+                     .catch(() => setSoundStatus("bloqueado")); // ainda sem toque na página
+                }
             } catch (e) { /* ignora */ }
         }
 
