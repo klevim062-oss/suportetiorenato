@@ -15,9 +15,9 @@ const CONFIG = {
     openPurchaseInNewTab: false,
 
     // Perfil
-    instagramUrl: "https://instagram.com/tiorenatoaqui",
+    instagramUrl: "https://instagram.com/tiorena7o",
     profileName: "Tio Renato",
-    instagramHandle: "tiorenatoaqui",   // texto exibido ao lado do ícone do Instagram
+    instagramHandle: "tiorena7o",   // texto exibido ao lado do ícone do Instagram
 
     // Imagens principais
     bannerImage: "assets/images/banner-renato.png",
