@@ -230,6 +230,52 @@
         });
     }
 
+    /* ======================= 5. META PIXEL + API DE CONVERSÕES =======================
+       Cada evento vai pelo Pixel (navegador) e pela /api/meta-event (servidor)
+       com o MESMO eventID, e a Meta conta só uma vez. No localhost a API não
+       existe, então só o Pixel é usado. */
+    function newEventId(prefix) {
+        return `${prefix}.${Date.now()}.${Math.random().toString(36).slice(2, 10)}`;
+    }
+
+    function sendServerEvent(eventName, eventId) {
+        const host = location.hostname;
+        if (location.protocol === "file:" || host === "localhost" || host === "127.0.0.1" || host === "::1") return;
+
+        const fbclid = new URLSearchParams(location.search).get("fbclid");
+        const data = JSON.stringify({
+            event_name: eventName,
+            event_id: eventId,
+            event_source_url: location.href,
+            fbc: fbclid ? `fb.1.${Date.now()}.${fbclid}` : undefined
+        });
+        try {
+            const blob = new Blob([data], { type: "application/json" });
+            if (navigator.sendBeacon && navigator.sendBeacon("/api/meta-event", blob)) return;
+        } catch (e) { /* segue para o fetch */ }
+        fetch("/api/meta-event", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: data, keepalive: true, credentials: "same-origin"
+        }).catch(() => {});
+    }
+
+    function trackEvent(eventName) {
+        const eventId = newEventId(eventName);
+        if (typeof window.fbq === "function") window.fbq("track", eventName, {}, { eventID: eventId });
+        sendServerEvent(eventName, eventId);
+    }
+
+    function setupTracking() {
+        // PageView: o Pixel já disparou no <head>; aqui vai a cópia do servidor
+        if (window.__metaPageViewId) {
+            // pequena espera para o Pixel criar o cookie _fbp
+            setTimeout(() => sendServerEvent("PageView", window.__metaPageViewId), 1200);
+        }
+
+        const button = document.getElementById("purchase-button");
+        if (button) button.addEventListener("click", () => trackEvent("InitiateCheckout"));
+    }
+
     /* ======================= 6. ANIMAÇÃO AO ROLAR ======================= */
     function setupReveal() {
         const items = document.querySelectorAll(".reveal");
@@ -425,6 +471,7 @@
         setupButtonRipple();
         setupReveal();
         setupNotifications();
+        setupTracking();
 
         if (window.lucide && typeof window.lucide.createIcons === "function") {
             window.lucide.createIcons();

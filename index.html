@@ -7,6 +7,22 @@
     <meta name="description" content="Participe do sorteio do Tio Renato. Adquira agora os seus números.">
     <title>Sorteio do Tio Renato</title>
 
+    <!-- Meta Pixel Code (o PageView leva um ID para não duplicar com a API de Conversões) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    window.__metaPageViewId = 'pv.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10);
+    fbq('init', '2370057920494120');
+    fbq('track', 'PageView', {}, { eventID: window.__metaPageViewId });
+    </script>
+    <!-- End Meta Pixel Code -->
+
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +32,12 @@
     <link rel="preload" as="image" href="assets/images/banner-renato.png" type="image/png">
 
     <!-- Estilos -->
-    <link rel="stylesheet" href="css/style.css?v=16">
-    <link rel="stylesheet" href="css/responsive.css?v=16">
+    <link rel="stylesheet" href="css/style.css?v=17">
+    <link rel="stylesheet" href="css/responsive.css?v=17">
 </head>
 <body>
+    <noscript><img height="1" width="1" style="display:none" alt=""
+    src="https://www.facebook.com/tr?id=2370057920494120&ev=PageView&noscript=1"/></noscript>
 
     <!-- ===================== EFEITOS LUMINOSOS DE FUNDO ===================== -->
     <div class="ambient-glow" aria-hidden="true">
@@ -145,7 +163,7 @@
     <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" defer></script>
 
     <!-- Scripts do site -->
-    <script src="js/config.js?v=16" defer></script>
-    <script src="js/main.js?v=16" defer></script>
+    <script src="js/config.js?v=17" defer></script>
+    <script src="js/main.js?v=17" defer></script>
 </body>
 </html>
