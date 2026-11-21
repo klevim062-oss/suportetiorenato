@@ -50,6 +50,10 @@
             }
         }
 
+        // Botão do grupo VIP (WhatsApp)
+        const vip = document.getElementById("vip-button");
+        if (vip && cfg.whatsappGroupUrl) vip.href = cfg.whatsappGroupUrl;
+
         // Banner
         const heroImg = document.getElementById("hero-image");
         if (heroImg && cfg.bannerImage && heroImg.getAttribute("src") !== cfg.bannerImage) {
@@ -274,6 +278,9 @@
 
         const button = document.getElementById("purchase-button");
         if (button) button.addEventListener("click", () => trackEvent("InitiateCheckout"));
+
+        const vip = document.getElementById("vip-button");
+        if (vip) vip.addEventListener("click", () => trackEvent("Lead"));
     }
 
     /* ======================= 6. ANIMAÇÃO AO ROLAR ======================= */

@@ -14,6 +14,9 @@ const CONFIG = {
     // Abrir o link de compra em nova aba? (true = nova aba / false = mesma aba)
     openPurchaseInNewTab: false,
 
+    // Link do grupo VIP no WhatsApp (botão laranja abaixo do botão verde; abre em nova aba)
+    whatsappGroupUrl: "https://chat.whatsapp.com/HlxHIwL6a3EC3OYtzUordp",
+
     // Perfil
     instagramUrl: "https://instagram.com/tiorena7o",
     profileName: "Tio Renato",
