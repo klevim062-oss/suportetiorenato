@@ -277,7 +277,20 @@
         }
 
         const button = document.getElementById("purchase-button");
-        if (button) button.addEventListener("click", () => trackEvent("InitiateCheckout"));
+        // InitiateCheckout: se a Blecks estiver ativa no botão, ela já dispara o Pixel.
+        // Aqui só mandamos a cópia do servidor com o MESMO ID dela (sem contar em dobro).
+        if (button) button.addEventListener("click", () => {
+            if (button.dataset.blecksBound === "1") {
+                let token = "";
+                try {
+                    const saved = JSON.parse(localStorage.getItem("blecks_journey_pk_blecks_B8rei-wndmLePilyqTAiCiJT") || "null");
+                    token = saved && saved.token;
+                } catch (e) { /* sem localStorage */ }
+                if (token) sendServerEvent("InitiateCheckout", "initiate-checkout-" + token);
+                return;
+            }
+            trackEvent("InitiateCheckout");
+        });
 
         const vip = document.getElementById("vip-button");
         if (vip) vip.addEventListener("click", () => trackEvent("Lead"));
