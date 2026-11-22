@@ -9,7 +9,7 @@
 
 const CONFIG = {
     // Link para onde o botão verde vai levar (ex.: "https://seusite.com/comprar")
-    purchaseUrl: "https://apprf.com/scooter-eletrica-ou-rdollar-500000-no-pix?ref=dk2SMzrJr5",
+    purchaseUrl: "https://campanha.link/scooter-eletrica-ou-rdollar-500000-no-pix?ref=dk2SMzrJr5",
 
     // Abrir o link de compra em nova aba? (true = nova aba / false = mesma aba)
     openPurchaseInNewTab: false,
